@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Product Viewer</title>
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+
+        .product-viewer {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .thumbnail-slider {
+            position: relative;
+            /* padding: 0 40px; */
+            /* Add padding for navigation buttons */
+        }
+
+        .thumbnail-slider .owl-carousel {
+            padding: 0 10px;
+        }
+
+        .thumbnail-slider .owl-stage-outer {
+            overflow: hidden;
+            /* Prevent thumbnails from overflowing */
+        }
+
+        .thumbnail-slider .owl-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .thumbnail-slider .owl-item img.active {
+            border-color: #007bff;
+        }
+
+        .thumbnail-slider .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .thumbnail-slider .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .thumbnail-slider .nav-btn.prev {
+            left: 0;
+        }
+
+        .thumbnail-slider .nav-btn.next {
+            right: 0;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            display: block;
+            margin: auto;
+            /* Center the image */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="product-viewer">
+        <!-- Main Image -->
+        <div class="main-image">
+            <img src="image1.jpg" alt="Main Image" id="mainImage">
+        </div>
+
+        <!-- Thumbnail Slider -->
+        <div class="thumbnail-slider" style="display: flex; justify-content: center;">
+            <div class="owl-carousel owl-theme">
+                <img src="image1.jpg" alt="Thumbnail 1" class="thumbnail active">
+                <img src="image2.jpg" alt="Thumbnail 2" class="thumbnail">
+                <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
+                <img src="image4.jpg" alt="Thumbnail 4" class="thumbnail">
+                <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
+                <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
+                <img src="image2.jpg" alt="Thumbnail 2" class="thumbnail">
+                <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
+                <img src="image4.jpg" alt="Thumbnail 4" class="thumbnail">
+                <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
+                <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
+            </div>
+            <!-- Navigation Buttons -->
+            <!-- <button class="nav-btn prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-btn next"><i class="fas fa-chevron-right"></i></button> -->
+        </div>
+    </div>
+
+    <!-- Full-Screen Overlay -->
+    <div class="overlay" id="overlay">
+        <img src="" alt="Full Screen Image" id="fullScreenImage">
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize Owl Carousel for Thumbnails
+            $(".thumbnail-slider .owl-carousel").owlCarousel({
+                items: 4,               // Number of items displayed at once
+                loop: true,             // Enable looping
+                nav: false,              // Show navigation buttons (previous and next)
+                dots: false,             // Show dots for navigation
+                margin: 10,             // Set margin between items
+                responsive: {
+                    0: {
+                        items: 3        // Display 3 items for screens of 0px and up (e.g., mobile)
+                    },
+                    600: {
+                        items: 4        // Display 4 items for screens of 600px and up (e.g., tablets)
+                    }
+                },
+                autoplay: true,          // Enable autoplay
+                autoplayTimeout: 2000,   // Set the autoplay delay (5 seconds)
+                autoplaySpeed: 1000,     // Set the autoplay transition speed
+                autoplayHoverPause: true, // Pause autoplay when hovering over the carousel
+                center: false,           // Disable centering of the active item
+                startPosition: 0,        // Start the carousel at the first item
+                animateOut: 'fadeOut',   // Apply fade out animation when moving between items
+                animateIn: 'fadeIn'     // Apply fade in animation when moving between items
+            });
+
+
+            // Custom Navigation Buttons
+            $(".nav-btn.next").click(function () {
+                $(".thumbnail-slider .owl-carousel").trigger("next.owl.carousel");
+            });
+            $(".nav-btn.prev").click(function () {
+                $(".thumbnail-slider .owl-carousel").trigger("prev.owl.carousel");
+            });
+
+            // Thumbnail Click Event
+            $(".thumbnail").click(function () {
+                $(".thumbnail").removeClass("active");
+                $(this).addClass("active");
+                $("#mainImage").attr("src", $(this).attr("src"));
+            });
+
+            // Main Image Click Event (Open Full Screen)
+            $("#mainImage").click(function () {
+                $("#fullScreenImage").attr("src", $(this).attr("src"));
+                $("#overlay").fadeIn();
+            });
+
+            // Overlay Click Event (Close Full Screen)
+            $("#overlay").click(function () {
+                $(this).fadeOut();
+            });
+        });
+    </script>
+</body>
+
+</html>

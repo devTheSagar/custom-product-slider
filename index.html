@@ -48,8 +48,6 @@
 
         .thumbnail-slider {
             position: relative;
-            /* padding: 0 40px; */
-            /* Add padding for navigation buttons */
         }
 
         .thumbnail-slider .owl-carousel {
@@ -58,7 +56,6 @@
 
         .thumbnail-slider .owl-stage-outer {
             overflow: hidden;
-            /* Prevent thumbnails from overflowing */
         }
 
         .thumbnail-slider .owl-item img {
@@ -101,15 +98,15 @@
         }
 
         .overlay {
-            display: none;
+            display: none; /* Overlay is hidden by default */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
             z-index: 1000;
         }
 
@@ -118,8 +115,26 @@
             max-height: 90%;
             border-radius: 10px;
             display: block;
-            margin: auto;
-            /* Center the image */
+            margin: auto; /* Ensures the image is centered */
+            margin-top: 40px; 
+        }
+
+        .overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .overlay .close-btn:hover {
+            background: rgba(255, 255, 255, 1);
         }
     </style>
 </head>
@@ -147,15 +162,13 @@
                 <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
                 <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
             </div>
-            <!-- Navigation Buttons -->
-            <!-- <button class="nav-btn prev"><i class="fas fa-chevron-left"></i></button>
-            <button class="nav-btn next"><i class="fas fa-chevron-right"></i></button> -->
         </div>
     </div>
 
     <!-- Full-Screen Overlay -->
     <div class="overlay" id="overlay">
         <img src="" alt="Full Screen Image" id="fullScreenImage">
+        <button class="close-btn" id="closeBtn"><i class="fas fa-times"></i> Close</button>
     </div>
 
     <!-- Scripts -->
@@ -165,36 +178,23 @@
         $(document).ready(function () {
             // Initialize Owl Carousel for Thumbnails
             $(".thumbnail-slider .owl-carousel").owlCarousel({
-                items: 4,               // Number of items displayed at once
-                loop: true,             // Enable looping
-                nav: false,              // Show navigation buttons (previous and next)
-                dots: false,             // Show dots for navigation
-                margin: 10,             // Set margin between items
+                items: 4,
+                loop: true,
+                nav: false,
+                dots: false,
+                margin: 10,
                 responsive: {
-                    0: {
-                        items: 3        // Display 3 items for screens of 0px and up (e.g., mobile)
-                    },
-                    600: {
-                        items: 4        // Display 4 items for screens of 600px and up (e.g., tablets)
-                    }
+                    0: { items: 3 },
+                    600: { items: 4 }
                 },
-                autoplay: true,          // Enable autoplay
-                autoplayTimeout: 2000,   // Set the autoplay delay (5 seconds)
-                autoplaySpeed: 1000,     // Set the autoplay transition speed
-                autoplayHoverPause: true, // Pause autoplay when hovering over the carousel
-                center: false,           // Disable centering of the active item
-                startPosition: 0,        // Start the carousel at the first item
-                animateOut: 'fadeOut',   // Apply fade out animation when moving between items
-                animateIn: 'fadeIn'     // Apply fade in animation when moving between items
-            });
-
-
-            // Custom Navigation Buttons
-            $(".nav-btn.next").click(function () {
-                $(".thumbnail-slider .owl-carousel").trigger("next.owl.carousel");
-            });
-            $(".nav-btn.prev").click(function () {
-                $(".thumbnail-slider .owl-carousel").trigger("prev.owl.carousel");
+                autoplay: true,
+                autoplayTimeout: 2000,
+                autoplaySpeed: 1000,
+                autoplayHoverPause: true,
+                center: false,
+                startPosition: 0,
+                animateOut: 'fadeOut',
+                animateIn: 'fadeIn'
             });
 
             // Thumbnail Click Event
@@ -207,12 +207,14 @@
             // Main Image Click Event (Open Full Screen)
             $("#mainImage").click(function () {
                 $("#fullScreenImage").attr("src", $(this).attr("src"));
-                $("#overlay").fadeIn();
+                $("#overlay").fadeIn(); // Show the overlay
             });
 
-            // Overlay Click Event (Close Full Screen)
-            $("#overlay").click(function () {
-                $(this).fadeOut();
+            // Close Overlay when clicked (Close Button or Outside Image)
+            $("#closeBtn, #overlay").click(function (e) {
+                if (e.target.id === "overlay" || e.target.id === "closeBtn") {
+                    $("#overlay").fadeOut(); // Hide the overlay
+                }
             });
         });
     </script>
